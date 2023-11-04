@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+import traceback
 
 VERSION = "11.0.0.dev"
 MITMPROXY = "mitmproxy " + VERSION
@@ -39,7 +40,9 @@ def get_dev_version() -> str:
         process = subprocess.Popen(['git', 'rev-parse', 'HEAD'], shell=False, stdout=subprocess.PIPE)
         git_head_hash = process.communicate()[0].strip()
 
+
     except Exception:
+        traceback.print_exc()
         pass
     else:
         # Add commit info for non-tagged releases
