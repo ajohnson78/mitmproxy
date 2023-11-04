@@ -36,6 +36,9 @@ def get_dev_version() -> str:
         last_tag, tag_dist_str, commit = git_describe.decode().strip().rsplit("-", 2)
         commit = commit.lstrip("g")[:7]
         tag_dist = int(tag_dist_str)
+        process = subprocess.Popen(['git', 'rev-parse', 'HEAD'], shell=False, stdout=subprocess.PIPE)
+        git_head_hash = process.communicate()[0].strip()
+
     except Exception:
         pass
     else:
@@ -46,6 +49,9 @@ def get_dev_version() -> str:
     # PyInstaller build indicator, if using precompiled binary
     if getattr(sys, "frozen", False):
         mitmproxy_version += " binary"
+
+    if git_head_hash != None:
+        mitmproxy_version += git_head_hash
 
     return mitmproxy_version
 
