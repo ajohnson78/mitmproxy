@@ -45,13 +45,13 @@ def get_dev_version() -> str:
         # Add commit info for non-tagged releases
         if tag_dist > 0:
             mitmproxy_version += f" (+{tag_dist}, commit {commit})"
+        if git_head_hash is not None:
+            mitmproxy_version += git_head_hash
 
     # PyInstaller build indicator, if using precompiled binary
     if getattr(sys, "frozen", False):
         mitmproxy_version += " binary"
 
-    if git_head_hash != None:
-        mitmproxy_version += git_head_hash
 
     return mitmproxy_version
 
